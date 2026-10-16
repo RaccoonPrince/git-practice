@@ -15,3 +15,7 @@ def multi(a,b):
 print(multi(10,5))
 
 
+
+def pow2(a,b):
+	return a**b
+print(pow2(2,3))
