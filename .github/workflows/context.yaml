@@ -1,0 +1,21 @@
+name: Contexts  #workflow ID
+on: push # event trigger
+jobs: # job
+  print: # job id, runner id name, 사용자 임의 정의 가능
+    runs-on: ubuntu-latest # runner 실행 환경 설정
+    steps: # runner's task
+      - run: echo "${{ github.actor }}"
+      - name: GitHub Context
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Event: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+      - name: Runner Information
+        run: |
+          echo "Runner: ${{ runner.name }}"
+          echo "OS: ${{ runner.os }}"
+          echo "Architecture: ${{ runner.arch }}"
+          echo "Environment: ${{ runner.environment }}"
+          echo "Temp: ${{ runner.temp }}"

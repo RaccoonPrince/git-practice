@@ -1,0 +1,22 @@
+name: Runtime Error Demo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  error-demo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 - Success
+        run: echo "Step 1 completed"
+
+      - name: Step 2 - Failure
+        run: python -c "print(10 / 0)"
+
+      - name: Step 3 - Will not run
+        run: echo "Step 3 completed"
+
+      - name: Logic Error
+        run: |
+          python -c "print('Result:', 10 + 5 - 3)"
