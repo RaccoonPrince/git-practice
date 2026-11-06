@@ -96,12 +96,12 @@
 - 현재 branch: `main` (push 완료, 최신 상태는 아래 `git log` 로 확인)
 - 남아 있는 branch: `main` 하나 (+ 원격 `origin/main`)
 - remote 주소: `origin` → https://github.com/RaccoonPrince/git-practice.git (GitHub 저장소 이름을 git-pratice → git-practice 로 변경함)
-- 로컬 폴더 이름: `git-pratice` → `git-practice` 로 변경 시도 (결과는 아래 "다음에 할 일" 참고)
+- 로컬 폴더 이름: 아직 `git-pratice` (VS Code가 열고 있어서 Claude가 못 바꿈, 아래 "다음에 할 일" 1번 참고)
 - 정리 안 된 변경 파일: 없음 (모두 commit/push)
 
 ## 다음에 할 일
-1. VS Code에서 폴더가 `git-practice` 로 바뀌었는지 확인하고, 바뀌었으면 **File > Open Folder** 로 새 이름의 폴더를 다시 열기.
-2. GitHub 저장소 > **Actions** 탭에서 `hello` 실행 결과 확인, 나머지 3개는 **Run workflow** 버튼으로 직접 실행해 보기.
+1. 로컬 폴더 이름 바꾸기: VS Code에서 **File > Close Folder** → 탐색기에서 `git-pratice` 폴더 이름을 `git-practice` 로 변경 → VS Code에서 **File > Open Folder** 로 다시 열기. (git 설정은 폴더 이름과 무관하므로 그대로 동작)
+2. GitHub 저장소 > **Actions** 탭에서 실행 결과 확인 (Claude가 4개 모두 실행해 성공 확인함). 직접 **Run workflow** 버튼도 눌러 보기.
 3. 3차시 실습: GitHub 웹에서 Issue 만들기 → `git switch main` → `git pull` → `git switch -c feature/...` → push → Pull Request.
 4. [실습기록-2차시.md](실습기록-2차시.md) 를 보며 혼자 연습하기.
 
