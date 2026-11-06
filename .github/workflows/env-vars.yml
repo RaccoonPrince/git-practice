@@ -1,0 +1,35 @@
+name: env-vars
+on: workflow_dispatch
+jobs:
+  env-demo:
+    runs-on: ubuntu-latest
+    # Job 수준 환경 변수
+    env:
+      APP_NAME: MyPythonApp
+      PYTHON_VERSION: '3.12'
+      TEST_MODE: 'development'
+      ACTOR: ${{ github.actor }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Print Environment
+        run: |
+          echo "Application: $APP_NAME"
+          echo "Python: $PYTHON_VERSION"
+          echo "Mode: $TEST_MODE"
+
+      - name: Check Test Mode
+        if: env.TEST_MODE == 'development'
+        run: echo "Development mode enabled"
+
+      - name: Context Environment
+        run: echo "$ACTOR"
+
+      - name: Run calculator
+        run: python calculator.py

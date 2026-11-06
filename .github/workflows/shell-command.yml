@@ -1,0 +1,29 @@
+name: shell-command
+on: workflow_dispatch
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check environment
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "File list:"
+          ls -la
+      - name: Check file
+        run: |
+          if [ -f "README.md" ]; then
+            echo "File exists"
+          else
+            echo "File not found"
+          fi
+      - name: Repeat commands
+        run: |
+          for i in 1 2 3
+          do
+            echo "Test $i"
+          done
+      - name: Use environment variable
+        env:
+          MESSAGE: Hello
+        run: echo "$MESSAGE"
