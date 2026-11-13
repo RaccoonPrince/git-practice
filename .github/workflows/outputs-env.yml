@@ -1,0 +1,31 @@
+name: outputs-env
+on: workflow_dispatch
+jobs:
+  producer:
+    runs-on: ubuntu-latest
+    outputs:
+      result: ${{ steps.gen.outputs.result }}
+    steps:
+      - name: Set variable with GITHUB_ENV
+        run: |
+          echo "BUILD_ID=build-${{ github.run_number }}" >> "$GITHUB_ENV"
+          echo "same step : [$BUILD_ID]"
+      - name: Read variable in the next step
+        run: echo "next step : [$BUILD_ID]"
+      - name: Set output with GITHUB_OUTPUT
+        id: gen
+        run: echo "result=42" >> "$GITHUB_OUTPUT"
+      - name: Read output in a later step
+        env:
+          RESULT: ${{ steps.gen.outputs.result }}
+        run: echo "output : $RESULT"
+  consumer:
+    needs: producer
+    runs-on: ubuntu-latest
+    env:
+      RESULT: ${{ needs.producer.outputs.result }}
+    steps:
+      - name: Read output from another job
+        run: echo "from producer job : $RESULT"
+      - name: GITHUB_ENV is not shared between jobs
+        run: echo "BUILD_ID in another job : [$BUILD_ID]"

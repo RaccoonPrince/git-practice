@@ -1,0 +1,18 @@
+name: status-functions
+on: workflow_dispatch
+jobs:
+  status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step 1 - Success
+        run: echo "Step 1 completed"
+      - name: Step 2 - Failure (intended)
+        run: exit 1
+      - name: Step 3 - default (success())
+        run: echo "runs only if every previous step succeeded"
+      - name: Step 4 - failure()
+        if: ${{ failure() }}
+        run: echo "runs because a previous step failed"
+      - name: Step 5 - always()
+        if: ${{ always() }}
+        run: echo "runs regardless of the previous result"

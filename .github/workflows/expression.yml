@@ -1,0 +1,39 @@
+name: expression
+on: workflow_dispatch
+jobs:
+  expression:
+    runs-on: ubuntu-latest
+    env:
+      FRUITS: '[{"name":"apple","price":1000},{"name":"banana","price":500},{"name":"grape","price":3000}]'
+    steps:
+      - name: Literal
+        run: |
+          echo "null: '${{ null }}'"
+          echo "boolean: ${{ true }} / ${{ false }}"
+          echo "number: ${{ 42 }} / ${{ 3.14 }}"
+          echo "string: ${{ 'hello' }}"
+      - name: Operator
+        run: |
+          echo "1 < 2 : ${{ 1 < 2 }}"
+          echo "true && false : ${{ true && false }}"
+          echo "true || false : ${{ true || false }}"
+          echo "!false : ${{ !false }}"
+          echo "true == 1 : ${{ true == 1 }}"
+          echo "'1' == 1 : ${{ '1' == 1 }}"
+      - name: Object filters
+        run: |
+          echo "first name : ${{ fromJSON(env.FRUITS)[0].name }}"
+          echo "all names  : ${{ join(fromJSON(env.FRUITS).*.name, ', ') }}"
+          echo "all prices : ${{ join(fromJSON(env.FRUITS).*.price, ', ') }}"
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Functions
+        run: |
+          echo "contains     : ${{ contains('Hello World', 'World') }}"
+          echo "contains(arr): ${{ contains(fromJSON(env.FRUITS).*.name, 'banana') }}"
+          echo "startsWith   : ${{ startsWith('Hello World', 'Hello') }}"
+          echo "endsWith     : ${{ endsWith('Hello World', 'World') }}"
+          echo "format       : ${{ format('{0}-{1}', 'open', 'source') }}"
+          echo "join         : ${{ join(fromJSON('["a","b","c"]'), '+') }}"
+          echo "toJSON       : ${{ toJSON(fromJSON(env.FRUITS)[0]) }}"
+          echo "hashFiles    : ${{ hashFiles('calculator.py') }}"

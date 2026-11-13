@@ -1,0 +1,20 @@
+name: conditions
+on: workflow_dispatch
+jobs:
+  branch:
+    runs-on: ubuntu-latest
+    steps:
+      # if를 먼저 작성
+      - name: Print Hello
+        if: ${{ contains(github.run_id, '1') }}
+        run: echo "Hello"
+      # run을 먼저 작성
+      - name: Print Goodbye
+        run: echo "Goodbye"
+        if: ${{ !contains(github.run_id, '1') }}
+  skip-demo:
+    # job 단위 조건 분기: 조건이 거짓이면 job 전체를 건너뜀
+    if: ${{ github.actor == 'nobody' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "this job is skipped"
