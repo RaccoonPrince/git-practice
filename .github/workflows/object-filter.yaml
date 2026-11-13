@@ -1,0 +1,18 @@
+name: Object Filter Example
+on: workflow_dispatch
+env:
+  FRUITS: '{"fruits":[{"name":"Apple","price":1000},{"name":"Banana","price":2000},{"name":"Cherry","price":3000}]}'
+jobs:
+  object-filter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Object Filter Test
+        env:
+          FIRST: ${{ fromJSON(env.FRUITS).fruits[0].name }}
+          NAMES: ${{ join(fromJSON(env.FRUITS).fruits.*.name, ', ') }}
+          PRICES: ${{ join(fromJSON(env.FRUITS).fruits.*.price, ', ') }}
+        run: |
+          echo "First: $FIRST"
+          echo "Names: $NAMES"
+          echo "Prices: $PRICES"
+

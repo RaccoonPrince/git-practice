@@ -1,0 +1,46 @@
+name: Operator Example
+on: workflow_dispatch
+jobs:
+  operator:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 논리 연산 (Logical Operators)
+      - name: Logical Operators
+        run: |
+          echo "AND: ${{ true && false }}"
+          echo "OR: ${{ true || false }}"
+          echo "NOT: ${{ !true }}"
+
+      # 2. 비교 연산 (Comparison Operators)
+      - name: Comparison Operators
+        run: |
+          echo "Equal: ${{ 10 == 10 }}"
+          echo "Not Equal: ${{ 10 != 20 }}"
+          echo "Greater: ${{ 10 > 5 }}"
+          echo "Less: ${{ 10 < 5 }}"
+          echo "Greater Equal: ${{ 10 >= 10 }}"
+          echo "Less Equal: ${{ 10 <= 20 }}"
+          echo "Type Error: ${{ false == 1 }}"
+
+      # 3. 그룹핑 (Grouping)
+      - name: Grouping
+        run: |
+          echo "Group 1: ${{ (true || false) && false }}"
+          echo "Group 2: ${{ true || (false && false) }}"
+          echo "Group 3: ${{ (10 > 5) && (20 > 10) }}"
+
+      # 4. 인덱스 (Index)
+      - name: Index
+        run: |
+          echo "First: ${{ fromJSON('["Apple","Banana","Cherry"]')[0] }}"
+          echo "Second: ${{ fromJSON('["Apple","Banana","Cherry"]')[1] }}"
+          echo "Third: ${{ fromJSON('["Apple","Banana","Cherry"]')[2] }}"
+
+      # 5. 속성 참조 (Property Access)
+      - name: Property Access
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Event: ${{ github.event_name }}"
+

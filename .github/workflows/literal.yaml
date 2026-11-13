@@ -1,0 +1,15 @@
+name: Literal Example
+on: workflow_dispatch
+jobs:
+  literal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Literal Test
+        run: |
+          echo "Boolean: ${{ true }}"
+          echo "Integer: ${{ 100 }}"
+          echo "Float: ${{ 3.14 }}"
+          echo "String: ${{ 'Hello GitHub' }}"
+          echo "String: String can also be written in this form"
+          echo "Null: ${{ null }}"
+

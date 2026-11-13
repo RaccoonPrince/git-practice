@@ -1,0 +1,39 @@
+name: Status Functions Example
+on: workflow_dispatch
+jobs:
+  status-test:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 정상 실행
+      - name: Normal Step
+        run: echo "Normal execution"
+
+      # 2. 성공 상태 확인
+      - name: Success Test
+        if: ${{ success() }}
+        run: echo "Previous steps succeeded"
+
+      # 3. 의도적인 오류 발생
+      - name: Fail Step
+        run: exit 1
+
+      # 4. 실패 상태 확인
+      - name: Failure Test
+        if: ${{ failure() }}
+        run: echo "A previous step failed"
+
+      # 5. 성공 상태 재확인
+      - name: Success After Failure
+        if: ${{ success() }}
+        run: echo "All steps succeeded"
+
+      # 6. 항상 실행
+      - name: Always Test
+        if: ${{ always() }}
+        run: echo "Always executed"
+
+      # 7. 취소 상태 확인
+      - name: Cancelled Test
+        if: ${{ cancelled() }}
+        run: echo "Workflow was cancelled"
+

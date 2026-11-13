@@ -1,0 +1,10 @@
+name: Run Name Example
+run-name: "Run #${{ github.run_number }} by ${{ github.actor }} on ${{ github.ref_name }}"
+on: workflow_dispatch
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Hello
+        run: echo "Hello GitHub Actions"
+

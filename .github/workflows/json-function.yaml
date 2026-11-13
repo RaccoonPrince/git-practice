@@ -1,0 +1,24 @@
+name: JSON Functions Example
+on: workflow_dispatch
+env:
+  STUDENT: '{"name":"Kim","score":95,"passed":true}'
+jobs:
+  json-functions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: JSON Test
+        env:
+          # fromJSON() 함수
+          RESULT_NAME: "${{ fromJSON(env.STUDENT).name }}"
+          RESULT_SCORE: "${{ fromJSON(env.STUDENT).score }}"
+          RESULT_PASSED: "${{ fromJSON(env.STUDENT).passed }}"
+
+          # toJSON() 함수
+          RESULT_JSON: "${{ toJSON(fromJSON(env.STUDENT)) }}"
+        run: |
+          echo "Name: $RESULT_NAME"
+          echo "Score: $RESULT_SCORE"
+          echo "Passed: $RESULT_PASSED"
+          echo "JSON:"
+          echo "$RESULT_JSON"
+

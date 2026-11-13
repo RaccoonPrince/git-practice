@@ -1,0 +1,31 @@
+name: Variable Example
+on: workflow_dispatch
+jobs:
+  variable-test:
+    runs-on: ubuntu-latest
+
+    # 일반 환경변수
+    env:
+      MESSAGE: Hello GitHub
+
+    steps:
+      # 1. 환경변수 확인
+      - name: Normal ENV
+        run: echo "ENV = $MESSAGE"
+
+      # 2. 동적으로 값 생성
+      - name: Create Variables
+        id: create
+        run: |
+          echo "DYNAMIC=Hello ENV" >> "$GITHUB_ENV"
+          echo "result=Hello OUTPUT" >> "$GITHUB_OUTPUT"
+
+      # 3. 생성한 값 사용
+      - name: Read Variables
+        env:
+          OUTPUT_VALUE: ${{ steps.create.outputs.result }}
+        run: |
+          echo "Normal ENV = $MESSAGE"
+          echo "GITHUB_ENV = $DYNAMIC"
+          echo "GITHUB_OUTPUT = $OUTPUT_VALUE"
+

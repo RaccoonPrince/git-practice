@@ -1,0 +1,20 @@
+name: String Creation Example
+on: workflow_dispatch
+jobs:
+  string-create:
+    runs-on: ubuntu-latest
+    steps:
+      - name: String Creation Test
+        env:
+          # format() 함수
+          RESULT_FORMAT_1: ${{ format('Hello {0}', 'GitHub') }}
+          RESULT_FORMAT_2: ${{ format('{0} {1}', 'Hello', 'World') }}
+          RESULT_FORMAT_3: "${{ format('Name: {0}, Age: {1}', 'Kim', 20) }}"
+
+          # join() 함수
+          RESULT_JOIN_1: ${{ join(fromJSON('["Apple","Banana","Cherry"]'), ', ') }}
+          RESULT_JOIN_2: ${{ join(fromJSON('["A","B","C"]'), '-') }}
+          RESULT_JOIN_3: ${{ join(fromJSON('["Red","Green","Blue"]')) }}
+
+        run: printenv | grep '^RESULT_' | sort
+
