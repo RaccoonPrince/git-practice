@@ -20,7 +20,7 @@ jobs:
       - name: Decide label
         id: pick
         run: |
-          # TITLE은 env로 받아 쉘 인젝션을 막는다 (${{ }}를 run에 직접 쓰지 않음)
+          # TITLE은 env로 받아 쉘 인젝션을 막는다 (표현식을 run에 직접 쓰지 않음)
           shopt -s nocasematch
           if [[ "$TITLE" == *bug* || "$TITLE" == *오류* ]]; then
             echo "label=bug" >> "$GITHUB_OUTPUT"
