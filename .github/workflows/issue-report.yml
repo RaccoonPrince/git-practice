@@ -1,0 +1,35 @@
+name: Issue Report
+
+# 수동 실행(또는 매주 월요일)으로 열린 이슈 현황을 Job Summary에 출력한다.
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "표시할 최대 이슈 수"
+        required: false
+        default: "20"
+  schedule:
+    - cron: "0 0 * * 1"
+
+permissions:
+  issues: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build report
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LIMIT: ${{ inputs.limit || '20' }}
+        run: |
+          COUNT=$(gh issue list --repo ${{ github.repository }} --state open --limit 1000 --json number --jq 'length')
+          {
+            echo "## Open issues: $COUNT"
+            echo ""
+            echo "| # | 제목 | 라벨 | 담당자 |"
+            echo "|---|------|------|--------|"
+            gh issue list --repo ${{ github.repository }} --state open --limit "$LIMIT" \
+              --json number,title,labels,assignees \
+              --jq '.[] | "| #\(.number) | \(.title) | \([.labels[].name]|join(", ")) | \([.assignees[].login]|join(", ")) |"'
+          } | tee -a "$GITHUB_STEP_SUMMARY"

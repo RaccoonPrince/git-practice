@@ -1,0 +1,35 @@
+name: Issue Labeler
+
+# 이슈가 열리면 제목에 따라 라벨을 자동으로 붙인다.
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      NUMBER: ${{ github.event.issue.number }}
+      TITLE: ${{ github.event.issue.title }}
+    steps:
+      - name: Decide label
+        id: pick
+        run: |
+          # TITLE은 env로 받아 쉘 인젝션을 막는다 (${{ }}를 run에 직접 쓰지 않음)
+          shopt -s nocasematch
+          if [[ "$TITLE" == *bug* || "$TITLE" == *오류* ]]; then
+            echo "label=bug" >> "$GITHUB_OUTPUT"
+          elif [[ "$TITLE" == *feature* || "$TITLE" == *추가* ]]; then
+            echo "label=enhancement" >> "$GITHUB_OUTPUT"
+          else
+            echo "label=triage" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Ensure label exists and apply
+        run: |
+          gh label create "${{ steps.pick.outputs.label }}" --repo "$REPO" --force
+          gh issue edit "$NUMBER" --repo "$REPO" --add-label "${{ steps.pick.outputs.label }}"

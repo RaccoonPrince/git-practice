@@ -1,0 +1,21 @@
+name: Issue Auto Assign
+
+# 이슈가 열리면 저장소 소유자를 담당자로 지정한다.
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign owner
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue edit ${{ github.event.issue.number }} \
+            --repo ${{ github.repository }} \
+            --add-assignee ${{ github.repository_owner }}

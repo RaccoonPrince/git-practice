@@ -1,0 +1,21 @@
+name: Issue Closed Notice
+
+# 이슈가 닫히면 누가 닫았는지 댓글을 남긴다.
+on:
+  issues:
+    types: [closed]
+
+permissions:
+  issues: write
+
+jobs:
+  notice:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on close
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment ${{ github.event.issue.number }} \
+            --repo ${{ github.repository }} \
+            --body "이 이슈는 @${{ github.actor }} 님이 닫았습니다. (reason: ${{ github.event.issue.state_reason }})"
