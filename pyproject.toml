@@ -1,0 +1,3 @@
+[tool.ruff]
+# 2차시 git 실습용 파일: 탭 들여쓰기 그대로 유지하려고 검사 제외
+extend-exclude = ["calculator.py"]
