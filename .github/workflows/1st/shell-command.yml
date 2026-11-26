@@ -1,23 +1,23 @@
 name: shell-command
-on: workflow_dispatch
+on: workflow_dispatch # 수동으로 워크플로우를 실행할 수 있도록 설정
 jobs:
   run:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # 사용할 OS 환경
     steps:
-      - name: Check environment
-        run: |
-          echo "Current directory:"
-          pwd
+      - name: Check environment # STEP1의 ID
+        run: | # 여러 shell command 실행
+          echo "Current directory:" 
+          pwd 
           echo "File list:"
           ls -la
-      - name: Check file
+      - name: Check file # STEP2의 ID
         run: |
           if [ -f "README.md" ]; then
             echo "File exists"
           else
             echo "File not found"
           fi
-      - name: Repeat commands
+      - name: Repeat commands # STEP3의 ID
         run: |
           for i in 1 2 3
           do
