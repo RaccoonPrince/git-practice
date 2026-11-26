@@ -32,3 +32,8 @@ def test_csv_bad_number(tmp_path):
 
 def test_fixture_revenue(sample_csv):
     assert revenue_from_csv(sample_csv) == 35_000
+
+
+def test_sample_orders_regression():
+    # 배포 보고서에 들어가는 샘플 데이터의 합계가 바뀌면 알 수 있게 한다
+    assert revenue_from_csv("data/sample_orders.csv") == 85_000

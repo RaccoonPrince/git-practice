@@ -1,0 +1,41 @@
+name: OrderLab CI-CD
+on:
+  push: {branches: [main]}
+  pull_request: {branches: [main]}
+permissions: {contents: read}
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with: {python-version: "3.14"}
+      - run: python -m pip install -r requirements-dev.txt
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: python -m pytest -q
+
+  deploy:
+    # GitHub 표현식의 문자열은 작은따옴표만 가능 (슬라이드의 "push"는 문법 오류)
+    if: github.event_name == 'push'
+    needs: quality
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with: {python-version: "3.14"}
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python generate_report.py
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+      - id: deployment
+        uses: actions/deploy-pages@v4
